@@ -148,3 +148,4 @@ C:\Users\Tejas PC\Desktop\Hexaware\.Net_FullStack\Project\Backend_new\SimpliflyT
 C:\Users\Tejas PC\Desktop\Hexaware\.Net_FullStack\Project\Backend_new\SimpliflyTest\obj\Debug\net6.0\SimpliflyTest.pdb
 C:\Users\Tejas PC\Desktop\Hexaware\.Net_FullStack\Project\Backend_new\SimpliflyTest\obj\Debug\net6.0\SimpliflyTest.genruntimeconfig.cache
 C:\Users\Tejas PC\Desktop\Hexaware\.Net_FullStack\Project\Backend_new\SimpliflyTest\obj\Debug\net6.0\ref\SimpliflyTest.dll
+C:\Users\Tejas PC\Desktop\Hexaware\.Net_FullStack\Project\Backend_new\SimpliflyTest\obj\Debug\net6.0\SimpliflyTest.sourcelink.json

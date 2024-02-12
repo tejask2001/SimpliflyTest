@@ -20,17 +20,16 @@ namespace SimpliflyTest
         RequestTrackerContext context;
         Schedule addedSchedule = new Schedule();
 
+
         [SetUp]
         public void Setup()
         {
             var options = new DbContextOptionsBuilder<RequestTrackerContext>().UseInMemoryDatabase("dummyDatabase").Options;
             context = new RequestTrackerContext(options);
-
-            
         }
 
         [Test]
-        [Order(7)]
+        [Order(1)]
         public async Task AddScheduleTest()
         {
             var mockScheduleRepoLogger=new Mock<ILogger<ScheduleRepository>>();
@@ -51,7 +50,7 @@ namespace SimpliflyTest
         }
 
         [Test]
-        [Order(8)]
+        [Order(2)]
         public async Task GetScheduleTest()
         {
             var mockScheduleRepoLogger = new Mock<ILogger<ScheduleRepository>>();
@@ -65,7 +64,7 @@ namespace SimpliflyTest
         }
 
         [Test]
-        [Order(9)]
+        [Order(3)]
         public async Task UpdateScheduleFlightTest()
         {
             var mockScheduleRepoLogger = new Mock<ILogger<ScheduleRepository>>();
@@ -78,8 +77,9 @@ namespace SimpliflyTest
             {
                 FlightId = "VIS444444"
             };
-            var schedules = await scheduleService.UpdateScheduledFlight(addedSchedule.Id, updateSchedule.FlightId);
-            Assert.That(updateSchedule.FlightId, Is.EqualTo(schedules.FlightId));
+
+            var updatedSchedule = await scheduleService.UpdateScheduledFlight(addedSchedule.Id, updateSchedule.FlightId);
+            Assert.That(updateSchedule.FlightId, Is.EqualTo(updatedSchedule.FlightId));
         }
     }
 }

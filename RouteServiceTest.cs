@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Simplifly.Exceptions;
 
 namespace SimpliflyTest
 {
@@ -99,6 +100,21 @@ namespace SimpliflyTest
 
             var getRoute = await routeService.RemoveRoute(route.SourceAirportId,route.DestinationAirportId);
             Assert.That(getRoute.SourceAirportId, Is.EqualTo(route.SourceAirportId));
+        }
+
+        [Test]
+        public async Task NoSuchRouteExceptionTest()
+        {
+            //Arrange
+            var mockRouteRepoLogger = new Mock<ILogger<RouteRepository>>();
+            var mockRouteServiceLogger = new Mock<ILogger<RouteService>>();
+
+            IRepository<int, Route> routeRepository = new RouteRepository(context, mockRouteRepoLogger.Object);
+            IRouteFlightOwnerService routeService = new RouteService(routeRepository, mockRouteServiceLogger.Object);
+
+            //Act
+            //Assert
+            Assert.ThrowsAsync<NoSuchRouteException>(async () => await routeService.GetRouteById(12));
         }
     }
 }
