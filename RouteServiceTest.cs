@@ -82,7 +82,7 @@ namespace SimpliflyTest
         }
 
         [Test]
-        [Order(31)]
+        [Order(29)]
         public async Task RemoveRouteTest()
         {
             var mockRouteRepoLogger = new Mock<ILogger<RouteRepository>>();

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SimpliflyTest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7c9d87746d78b078de64a2cfb22a45e365b4a2a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("SimpliflyTest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SimpliflyTest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

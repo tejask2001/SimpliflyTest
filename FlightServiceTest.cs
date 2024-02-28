@@ -7,11 +7,6 @@ using Simplifly.Interfaces;
 using Simplifly.Models;
 using Simplifly.Repositories;
 using Simplifly.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpliflyTest
 {
@@ -111,7 +106,7 @@ namespace SimpliflyTest
         }
 
         [Test]
-        [Order(30)]
+        [Order(33)]
         public async Task RemoveFlightTest()
         {
             //Arrange

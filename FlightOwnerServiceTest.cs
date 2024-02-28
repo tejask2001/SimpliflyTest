@@ -41,6 +41,14 @@ namespace SimpliflyTest
 
             IFlightOwnerService flightOwnerService = new FlightOwnerService(flightOwnerRepository, userRepository, mockFlightOwnerServiceLogger.Object);
 
+            User user = new User
+            {
+                Username = "tejas",
+                Password = new byte[] { 0x01, 0x02, 0x03, 0x04 },
+                Role = "flightOwner",
+                Key = new byte[] { 0xAA, 0xBB, 0xCC, 0xDD }
+            };
+            userRepository.Add(user);
             FlightOwner flightOwner = new FlightOwner
             {
                 Name= "Test",
@@ -136,7 +144,7 @@ namespace SimpliflyTest
             IFlightOwnerService flightOwnerService = new FlightOwnerService(flightOwnerRepository, userRepository, mockFlightOwnerServiceLogger.Object);
             //Act
             //Assert
-            Assert.ThrowsAsync<NoSuchFlightOwnerException>(async () => await flightOwnerService.GetByIdFlightOwners(11));
+            Assert.ThrowsAsync<NoSuchFlightOwnerException>(async () => await flightOwnerService.GetFlightOwnerById(11));
         }
     }
 }

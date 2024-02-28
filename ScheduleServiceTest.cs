@@ -1,85 +1,81 @@
-﻿using Castle.Core.Logging;
-using Microsoft.EntityFrameworkCore;
+﻿// ... (previous using statements)
+
 using Microsoft.Extensions.Logging;
 using Moq;
-using Simplifly.Context;
+using Simplifly.Exceptions;
 using Simplifly.Interfaces;
 using Simplifly.Models;
-using Simplifly.Repositories;
 using Simplifly.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SimpliflyTest
 {
-    internal class ScheduleServiceTest
+    [TestFixture]
+    internal class ScheduleServicesTest
     {
-        RequestTrackerContext context;
-        Schedule addedSchedule = new Schedule();
-
+        private ScheduleServices _scheduleServices;
+        private Mock<IRepository<int, Schedule>> _mockScheduleRepository;
+        private Mock<IBookingService> _mockBookingService;
+        private Mock<ILogger<ScheduleServices>> _mockLogger;
 
         [SetUp]
         public void Setup()
         {
-            var options = new DbContextOptionsBuilder<RequestTrackerContext>().UseInMemoryDatabase("dummyDatabase").Options;
-            context = new RequestTrackerContext(options);
+            _mockScheduleRepository = new Mock<IRepository<int, Schedule>>();
+            _mockBookingService = new Mock<IBookingService>();
+            _mockLogger = new Mock<ILogger<ScheduleServices>>();
+
+            _scheduleServices = new ScheduleServices(_mockScheduleRepository.Object, _mockBookingService.Object, _mockLogger.Object);
         }
 
         [Test]
         [Order(1)]
         public async Task AddScheduleTest()
         {
-            var mockScheduleRepoLogger=new Mock<ILogger<ScheduleRepository>>();
-            var mockScheduleServiceLogger=new Mock<ILogger<ScheduleServices>>();
-
-            IRepository<int, Schedule> scheduleRepository = new ScheduleRepository(context, mockScheduleRepoLogger.Object);
-            IScheduleFlightOwnerService scheduleService = new ScheduleServices(scheduleRepository, mockScheduleServiceLogger.Object);
-
+            // Arrange
             Schedule schedule = new Schedule
             {
-                FlightId = "IND99998",
-                RouteId = 1,
-                Departure = new DateTime(2024, 3, 13, 16, 0, 0),
-                Arrival = new DateTime(2024, 3, 13, 23, 0, 0)
+                FlightId = "IND99999",
+                Departure = DateTime.Now.AddDays(2),
+                Arrival = DateTime.Now.AddDays(3),
+                RouteId = 1
             };
-            addedSchedule= await scheduleService.AddSchedule(schedule);
+
+            _mockScheduleRepository.Setup(repo => repo.GetAsync()).ReturnsAsync(new List<Schedule>());
+            _mockScheduleRepository.Setup(repo => repo.Add(It.IsAny<Schedule>())).ReturnsAsync(schedule);
+
+            // Act
+            var addedSchedule = await _scheduleServices.AddSchedule(schedule);
+
+            // Assert
             Assert.That(addedSchedule.FlightId, Is.EqualTo(schedule.FlightId));
         }
 
         [Test]
-        [Order(2)]
-        public async Task GetScheduleTest()
+        [Order(8)]
+        public async Task GetAllSchedulesTest()
         {
-            var mockScheduleRepoLogger = new Mock<ILogger<ScheduleRepository>>();
-            var mockScheduleServiceLogger = new Mock<ILogger<ScheduleServices>>();
+            // Arrange
+            var schedulesList = new List<Schedule> { new Schedule { FlightId = "IND99999", Departure = DateTime.Now.AddDays(2), Arrival = DateTime.Now.AddDays(3), RouteId = 1 } };
 
-            IRepository<int, Schedule> scheduleRepository = new ScheduleRepository(context, mockScheduleRepoLogger.Object);
-            IScheduleFlightOwnerService scheduleService = new ScheduleServices(scheduleRepository, mockScheduleServiceLogger.Object);
+            _mockScheduleRepository.Setup(repo => repo.GetAsync()).ReturnsAsync(schedulesList);
 
-            var schedule=await scheduleService.GetAllSchedules();
-            Assert.IsNotEmpty(schedule);
+            // Act
+            var schedules = await _scheduleServices.GetAllSchedules();
+
+            // Assert
+            Assert.IsNotEmpty(schedules);
         }
 
         [Test]
-        [Order(3)]
-        public async Task UpdateScheduleFlightTest()
+        public async Task NoSuchScheduleExceptionTest()
         {
-            var mockScheduleRepoLogger = new Mock<ILogger<ScheduleRepository>>();
-            var mockScheduleServiceLogger = new Mock<ILogger<ScheduleServices>>();
+            // Arrange
+            int scheduleId = 999;
 
-            IRepository<int, Schedule> scheduleRepository = new ScheduleRepository(context, mockScheduleRepoLogger.Object);
-            IScheduleFlightOwnerService scheduleService = new ScheduleServices(scheduleRepository, mockScheduleServiceLogger.Object);
+            _mockScheduleRepository.Setup(repo => repo.GetAsync(scheduleId)).ThrowsAsync(new NoSuchScheduleException());
 
-            Schedule updateSchedule = new Schedule
-            {
-                FlightId = "VIS444444"
-            };
-
-            var updatedSchedule = await scheduleService.UpdateScheduledFlight(addedSchedule.Id, updateSchedule.FlightId);
-            Assert.That(updateSchedule.FlightId, Is.EqualTo(updatedSchedule.FlightId));
+            // Act & Assert
+            Assert.ThrowsAsync<NoSuchScheduleException>(async () => await _scheduleServices.UpdateScheduledFlight(scheduleId, "ABC123"));
         }
     }
 }

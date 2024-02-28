@@ -24,7 +24,7 @@
           "build/netstandard1.0/coverlet.collector.targets": {}
         }
       },
-      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.26": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.27": {
         "type": "package",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.35.0"
@@ -1370,7 +1370,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.26",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.27",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
@@ -1464,10 +1464,10 @@
         "coverlet.collector.nuspec"
       ]
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.26": {
-      "sha512": "Hj++lgZSNcZxl+UeGIaEWj3OLcATqHy0aGVxKnofLClX0tATYZgJ9nj1B2Jv60yFblKxUISGM+5c0ayeZqvbAw==",
+    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.27": {
+      "sha512": "YnANGwDTq2NNBa1+JhkfZJMF250qTM0h0zcfCvWMnGDQCaSW0NBzJWVnI6MekndIEKp1tAx6oHA3ZqkFN4V8eg==",
       "type": "package",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.26",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.27",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1475,7 +1475,7 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll",
         "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.xml",
-        "microsoft.aspnetcore.authentication.jwtbearer.6.0.26.nupkg.sha512",
+        "microsoft.aspnetcore.authentication.jwtbearer.6.0.27.nupkg.sha512",
         "microsoft.aspnetcore.authentication.jwtbearer.nuspec"
       ]
     },
@@ -3873,11 +3873,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend_new\\SimpliflyTest\\SimpliflyTest.csproj",
+      "projectUniqueName": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend-latest\\SimpliflyTest\\SimpliflyTest.csproj",
       "projectName": "SimpliflyTest",
-      "projectPath": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend_new\\SimpliflyTest\\SimpliflyTest.csproj",
+      "projectPath": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend-latest\\SimpliflyTest\\SimpliflyTest.csproj",
       "packagesPath": "C:\\Users\\Tejas PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend_new\\SimpliflyTest\\obj\\",
+      "outputPath": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend-latest\\SimpliflyTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3898,8 +3898,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend_new\\Simplifly\\Simplifly.csproj": {
-              "projectPath": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend_new\\Simplifly\\Simplifly.csproj"
+            "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend-latest\\Simplifly\\Simplifly.csproj": {
+              "projectPath": "C:\\Users\\Tejas PC\\Desktop\\Hexaware\\.Net_FullStack\\Project\\Backend-latest\\Simplifly\\Simplifly.csproj"
             }
           }
         }

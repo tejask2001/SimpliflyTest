@@ -33,14 +33,14 @@
         }
       },
       "coverlet.collector/3.2.0": {},
-      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.26": {
+      "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.27": {
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "6.35.0"
         },
         "runtime": {
           "lib/net6.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll": {
-            "assemblyVersion": "6.0.26.0",
-            "fileVersion": "6.0.2623.60506"
+            "assemblyVersion": "6.0.27.0",
+            "fileVersion": "6.0.2724.7002"
           }
         }
       },
@@ -846,7 +846,7 @@
       },
       "Simplifly/1.0.0": {
         "dependencies": {
-          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.26",
+          "Microsoft.AspNetCore.Authentication.JwtBearer": "6.0.27",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.26",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
@@ -876,12 +876,12 @@
       "path": "coverlet.collector/3.2.0",
       "hashPath": "coverlet.collector.3.2.0.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.26": {
+    "Microsoft.AspNetCore.Authentication.JwtBearer/6.0.27": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Hj++lgZSNcZxl+UeGIaEWj3OLcATqHy0aGVxKnofLClX0tATYZgJ9nj1B2Jv60yFblKxUISGM+5c0ayeZqvbAw==",
-      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.26",
-      "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.6.0.26.nupkg.sha512"
+      "sha512": "sha512-YnANGwDTq2NNBa1+JhkfZJMF250qTM0h0zcfCvWMnGDQCaSW0NBzJWVnI6MekndIEKp1tAx6oHA3ZqkFN4V8eg==",
+      "path": "microsoft.aspnetcore.authentication.jwtbearer/6.0.27",
+      "hashPath": "microsoft.aspnetcore.authentication.jwtbearer.6.0.27.nupkg.sha512"
     },
     "Microsoft.CodeCoverage/17.5.0": {
       "type": "package",
