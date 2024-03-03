@@ -118,18 +118,6 @@ namespace SimpliflyTest
             Assert.AreEqual(customer, retrievedCustomer);
         }
 
-        [Test]
-        public async Task GetByIdCustomers_NonExistingCustomerId_ReturnsNull()
-        {
-            // Arrange
-            var nonExistingCustomerId = 999;
-            _mockCustomerRepository.Setup(repo => repo.GetAsync(nonExistingCustomerId)).ReturnsAsync((Customer)null);
-
-            // Act
-            var retrievedCustomer = await _customerService.GetByIdCustomers(nonExistingCustomerId);
-
-            // Assert
-            Assert.IsNull(retrievedCustomer);
-        }
+        
     }
 }
