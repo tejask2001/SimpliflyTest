@@ -37,7 +37,7 @@ namespace SimpliflyTest
             var addedSeatDetail = await _seatDetailService.AddSeatDetail(seatDetail);
 
             // Assert
-            Assert.AreEqual(seatDetail, addedSeatDetail);
+            Assert.That(addedSeatDetail, Is.EqualTo(seatDetail));
         }
 
         [Test]
@@ -82,7 +82,7 @@ namespace SimpliflyTest
             var result = await _seatDetailService.GetAllSeatDetails();
 
             // Assert
-            Assert.AreEqual(seatDetails, result);
+            Assert.That(result, Is.EqualTo(seatDetails));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace SimpliflyTest
             var result = await _seatDetailService.GetByIdSeatDetails(seatDetailId);
 
             // Assert
-            Assert.AreEqual(seatDetail, result);
+            Assert.That(result, Is.EqualTo(seatDetail));
         }
 
         [Test]

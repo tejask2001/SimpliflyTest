@@ -138,7 +138,7 @@ namespace SimpliflyTest
             var result = await _bookingService.CancelBookingAsync(bookingId);
 
             // Assert
-            Assert.AreEqual(booking, result);
+            Assert.That(result, Is.EqualTo(booking));
         }
 
         [Test]
@@ -187,5 +187,41 @@ namespace SimpliflyTest
             // Assert
             Assert.IsTrue(result);
         }
+
+        [Test]
+        public async Task GetBookingByScheduleTest()
+        {
+            var bookingRequest = new BookingRequestDto
+            {
+                ScheduleId = 1,
+                UserId = 1,
+                SelectedSeats = new List<string> { "A1", "A2" },
+                PassengerIds = new List<int> { 1, 2 },
+
+            };
+            Payment payment = new Payment { Amount = 200, PaymentDate = DateTime.Now, Status = PaymentStatus.Successful };
+            var flight = new Flight { FlightNumber = "FL001", BasePrice = 100 };
+            _mockFlightRepository.Setup(repo => repo.GetAsync("FL001")).ReturnsAsync(flight);
+            _mockPassengerBookingsRepository.Setup(repo => repo.CheckSeatsAvailabilityAsync(1, It.IsAny<List<string>>())).ReturnsAsync(true);
+            _mockSeatDetailRepository.Setup(repo => repo.GetSeatDetailsAsync(bookingRequest.SelectedSeats)).ReturnsAsync(new List<SeatDetail> { new SeatDetail { SeatNumber = "A1", SeatClass = "Economy" }, new SeatDetail { SeatNumber = "A2", SeatClass = "Business" } });
+            _mockScheduleRepository.Setup(repo => repo.GetAsync(1)).ReturnsAsync(new Schedule { FlightId = "IND99999", Departure = DateTime.Now.AddDays(2), Arrival = DateTime.Now.AddDays(3), RouteId = 1 });
+            _mockBookingRepository.Setup(repo => repo.Add(It.IsAny<Booking>())).ReturnsAsync(new Booking { Id = 1, ScheduleId = 1, UserId = 1, BookingTime = DateTime.Now, TotalPrice = 200 });
+            _mockPassengerBookingRepository.Setup(repo => repo.Add(It.IsAny<PassengerBooking>())).ReturnsAsync(new PassengerBooking { Id = 1, BookingId = 1, PassengerId = 1, SeatNumber = "A1" });
+            _mockPaymentRepository.Setup(repo => repo.Add(It.IsAny<Payment>())).ReturnsAsync(new Payment { PaymentId = 1, Amount = 200, PaymentDate = DateTime.Now, Status = PaymentStatus.Successful });
+
+            // Act
+            var result = await _bookingService.CreateBookingAsync(bookingRequest);
+
+            var booking = await _bookingService.GetBookingBySchedule(bookingRequest.ScheduleId);
+            Assert.IsNotEmpty(booking);
+        }
+
+        [Test]
+        public async Task GetBookingByCustomerIdTest()
+        {
+            var booking = await _bookingService.GetBookingsByCustomerId(1);
+            Assert.IsNotEmpty(booking);
+        }
+        
     }
 }

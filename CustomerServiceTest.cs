@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
+using Simplifly.Context;
 using Simplifly.Interfaces;
 using Simplifly.Models;
+using Simplifly.Models.DTO_s;
+using Simplifly.Repositories;
 using Simplifly.Services;
 using System;
 using System.Collections.Generic;
@@ -17,6 +21,7 @@ namespace SimpliflyTest
         private Mock<IRepository<int, Customer>> _mockCustomerRepository;
         private Mock<IRepository<string, User>> _mockUserRepository;
         private Mock<ILogger<CustomerService>> _mockLogger;
+        RequestTrackerContext context;
 
         [SetUp]
         public void Setup()
@@ -24,7 +29,8 @@ namespace SimpliflyTest
             _mockCustomerRepository = new Mock<IRepository<int, Customer>>();
             _mockUserRepository = new Mock<IRepository<string, User>>();
             _mockLogger = new Mock<ILogger<CustomerService>>();
-
+            var options = new DbContextOptionsBuilder<RequestTrackerContext>().UseInMemoryDatabase("dummyDatabase").Options;
+            context = new RequestTrackerContext(options);
             _customerService = new CustomerService(_mockCustomerRepository.Object, _mockUserRepository.Object, _mockLogger.Object);
         }
 
@@ -40,6 +46,36 @@ namespace SimpliflyTest
 
             // Assert
             Assert.AreEqual(customer, addedCustomer);
+        }
+
+        [Test]
+        public async Task GetAllCustomersTest()
+        {
+            // Arrange
+            var mockCustomerRepositoryLogger = new Mock<ILogger<CustomerRepository>>();
+            var mockUserRepositoryLogger = new Mock<ILogger<UserRepository>>();
+            var mockCustomerServiceLogger = new Mock<ILogger<CustomerService>>();
+
+            IRepository<int, Customer> customerRepository = new CustomerRepository(context, mockCustomerRepositoryLogger.Object);
+            IRepository<string, User> userRepository = new UserRepository(context, mockUserRepositoryLogger.Object);
+
+            ICustomerService customerService = new CustomerService(customerRepository, userRepository, mockCustomerServiceLogger.Object);
+
+            Customer customer1 = new Customer
+            {
+                Name = "Customer 1",
+                Email = "customer1@example.com",
+                Phone = "1111111111",
+                Username = "user1"
+            };
+
+            await customerRepository.Add(customer1);
+
+            // Act
+            var customers = await customerService.GetAllCustomers();
+
+            // Assert
+            Assert.That(customers.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -118,6 +154,71 @@ namespace SimpliflyTest
             Assert.AreEqual(customer, retrievedCustomer);
         }
 
-        
+        [Test]
+        public async Task GetCustomersByUsernameTest()
+        {
+            // Arrange
+            var mockCustomerRepositoryLogger = new Mock<ILogger<CustomerRepository>>();
+            var mockUserRepositoryLogger = new Mock<ILogger<UserRepository>>();
+            var mockCustomerServiceLogger = new Mock<ILogger<CustomerService>>();
+
+            IRepository<int, Customer> customerRepository = new CustomerRepository(context, mockCustomerRepositoryLogger.Object);
+            IRepository<string, User> userRepository = new UserRepository(context, mockUserRepositoryLogger.Object);
+
+            ICustomerService customerService = new CustomerService(customerRepository, userRepository, mockCustomerServiceLogger.Object);
+
+            Customer customer = new Customer
+            {
+                Name = "Nishant",
+                Email = "nishant@gmail.com",
+                Phone = "99887788",
+                Username = "nishant"
+            };
+
+            await customerRepository.Add(customer);
+
+            // Act
+            var getCustomer = await customerService.GetCustomersByUsername("nishant");
+
+            // Assert
+            Assert.That(getCustomer, Is.EqualTo(customer));
+        }
+
+        [Test]
+        public async Task UpdateCustomerTest()
+        {
+            var mockCustomerRepositoryLogger= new Mock<ILogger<CustomerRepository>>();
+            var mockUserRepositoryLogger= new Mock<ILogger<UserRepository>>();
+            var mockCustomerServiceLogger = new Mock<ILogger<CustomerService>>();
+            IRepository<int, Customer> customerRepository = new CustomerRepository(context, mockCustomerRepositoryLogger.Object);
+            IRepository<string,User> userRepository=new UserRepository(context, mockUserRepositoryLogger.Object);
+
+            ICustomerService customerService = new CustomerService(customerRepository, userRepository, mockCustomerServiceLogger.Object);
+            
+            Customer customer = new Customer
+            {
+                Name = "Nikhil",
+                Email = "nikhil@gmail.com",
+                Phone = "98989898",
+                Username = "nikhil"
+            };
+
+            await customerRepository.Add(customer);
+
+            var updatedCustomerDTO = new UpdateCustomerDTO
+            {
+                UserId = customer.UserId,
+                Name = "Nikhil B",
+                Email = "nikhilb@gmail.com.com",
+                Phone = "9999666699"
+            };
+
+            // Act
+            var updatedCustomer = await customerService.UpdateCustomer(updatedCustomerDTO);
+
+            // Assert
+            Assert.That(updatedCustomer.Name, Is.EqualTo(updatedCustomerDTO.Name));
+
+        }
     }
 }
