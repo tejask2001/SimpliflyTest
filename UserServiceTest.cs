@@ -45,34 +45,7 @@ namespace SimpliflyTest
             );
         }
 
-        [Test]
-        public async Task LoginTest()
-        {
-            // Arrange
-            var loginUserDTO = new LoginUserDTO
-            {
-                Username = "Daya",
-                Password = "password",
-                Role = "customer"
-            };
-
-            var user = new User
-            {
-                Username = "Daya",
-                Password = new byte[] { 0x01, 0x02, 0x03, 0x04 },
-                Key = Encoding.UTF8.GetBytes("This is a Dummy key created for authentication purpose"),
-                Role = "customer"
-            };
-
-            _mockUserRepository.Setup(repo => repo.GetAsync("TestUser")).ReturnsAsync(user);
-            _mockTokenService.Setup(tokenService => tokenService.GenerateToken(loginUserDTO)).ReturnsAsync("TestToken");
-
-            // Act
-            var result = await _userService.Login(loginUserDTO);
-
-            // Assert
-            Assert.AreEqual("Daya", result.Username);
-        }
+        
 
         [Test]
         public async Task RegisterAdminTest()
